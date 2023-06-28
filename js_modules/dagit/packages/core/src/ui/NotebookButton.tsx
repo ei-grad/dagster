@@ -17,30 +17,12 @@ export const NotebookButton: React.FC<{
     return () => document.removeEventListener('show-kind-info', onOpen);
   }, []);
 
-  const value = path || '';
-  const url = React.useMemo(() => {
-    try {
-      const url = new URL(value);
-      return url.toString();
-    } catch (e) {
-      // Not a full valid URL
-      return null;
-    }
-  }, [value]);
-
   if (!path) {
     return <span />;
   }
 
   const buttonLabel = label || 'View Notebook';
 
-  if (url) {
-    return (
-      <ExternalAnchorButton href={url} icon={<Icon name="open_in_new" />}>
-        {buttonLabel}
-      </ExternalAnchorButton>
-    );
-  }
   return (
     <div>
       <Button icon={<Icon name="content_copy" />} onClick={() => setOpen(true)}>
