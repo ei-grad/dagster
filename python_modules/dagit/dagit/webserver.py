@@ -1,8 +1,9 @@
 import gzip
 import io
 import uuid
-from os import path
+from os import path, getenv
 from typing import Generic, List, TypeVar
+import logging
 
 import dagster._check as check
 from dagster import __version__ as dagster_version
@@ -31,6 +32,7 @@ from starlette.responses import (
 from starlette.routing import Mount, Route, WebSocketRoute
 from starlette.staticfiles import StaticFiles
 from starlette.types import Message
+from upath import UPath
 
 from .graphql import GraphQLServer
 from .version import __version__
@@ -47,6 +49,8 @@ ROOT_ADDRESS_STATIC_RESOURCES = [
     "/robots.txt",
     "/Dagster_world.mp4",
 ]
+
+ALLOWED_NOTEBOOK_PATH_PREFIX = set(getenv("DAGSTER_ALLOWED_NOTEBOOK_PATH_PREFIX", "").split(","))
 
 T_IWorkspaceProcessContext = TypeVar("T_IWorkspaceProcessContext", bound=IWorkspaceProcessContext)
 
@@ -132,15 +136,32 @@ class DagitWebserver(GraphQLServer, Generic[T_IWorkspaceProcessContext]):
                 "<code>pip install dagit[notebook]</code>"
             )
 
-        context = self.make_request_context(request)
-        code_location_name = request.query_params["repoLocName"]
+        # resolve relative paths and check prefix and suffix to prevent path traversal vulnerabilities
+        try:
+            nb_upath = UPath(request.query_params["path"])
+            nb_upath = nb_upath.resolve()
+        except Exception as e:
+            logging.getLogger("dagit").warning(
+                "download_notebook: could not resolve path %r: %s",
+                request.query_params["path"], e,
+            )
+            return PlainTextResponse("Invalid path", status_code=400)
+        if set(map(str, nb_upath.parents)).isdisjoint(ALLOWED_NOTEBOOK_PATH_PREFIX):
+            return PlainTextResponse("Path is not in ALLOWED_NOTEBOOK_PATH_PREFIX", status_code=400)
+        if nb_upath.suffix != ".ipynb":
+            return PlainTextResponse("Path suffix is not '.ipynb'", status_code=400)
 
-        nb_path = request.query_params["path"]
-        if not nb_path.endswith(".ipynb"):
-            return PlainTextResponse("Invalid Path", status_code=400)
+        try:
+            notebook_content = nb_upath.open('rb').read()
+        except Exception as e:
+            context = self.make_request_context(request)
+            code_location_name = request.query_params["repoLocName"]
 
-        # get ipynb content from grpc call
-        notebook_content = context.get_external_notebook_data(code_location_name, nb_path)
+            nb_path = request.query_params["path"]
+
+            # get ipynb content from grpc call
+            notebook_content = context.get_external_notebook_data(code_location_name, nb_path)
+
         check.inst_param(notebook_content, "notebook_content", bytes)
 
         # parse content to HTML
