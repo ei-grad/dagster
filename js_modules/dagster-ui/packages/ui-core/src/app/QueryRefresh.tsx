@@ -5,7 +5,7 @@ import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDocumentVisibility} from '../hooks/useDocumentVisibility';
 import {isSearchVisible, useSearchVisibility} from '../search/useSearchVisibility';
 
-export const FIFTEEN_SECONDS = 15 * 1000;
+export const FIFTEEN_SECONDS = 5 * 1000;
 export const ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
 
 export interface QueryRefreshState {
