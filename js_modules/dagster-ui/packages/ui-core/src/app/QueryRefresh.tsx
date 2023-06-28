@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {useDocumentVisibility} from '../hooks/useDocumentVisibility';
 
-export const FIFTEEN_SECONDS = 15 * 1000;
+export const FIFTEEN_SECONDS = 5 * 1000;
 export const ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
 
 export interface QueryRefreshState {
