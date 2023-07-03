@@ -126,6 +126,11 @@ export const AssetEventMetadataEntriesTable = ({
     return emptyState;
   }
 
+  const repoLocation =
+    event.runOrError?.__typename === 'Run'
+      ? event.runOrError.repositoryOrigin?.repositoryLocationName
+      : undefined;
+
   return (
     <>
       {showFilter && (
@@ -203,7 +208,7 @@ export const AssetEventMetadataEntriesTable = ({
                   )}
                   <td>
                     <Mono>
-                      <MetadataEntry entry={entry} expandSmallValues={true} />
+                      <MetadataEntry entry={entry} expandSmallValues={true} repoLocation={repoLocation} />
                     </Mono>
                   </td>
                   {showDescriptions && (
