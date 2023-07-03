@@ -35,6 +35,11 @@ export const AssetEventMetadataEntriesTable: React.FC<{
     (e) => e.entry.label,
   );
 
+  const repoLocation =
+    event.runOrError?.__typename === 'Run'
+      ? event.runOrError.repositoryOrigin?.repositoryLocationName
+      : undefined;
+
   return (
     <AssetEventMetadataScrollContainer>
       <AssetEventMetadataTable>
@@ -46,7 +51,11 @@ export const AssetEventMetadataEntriesTable: React.FC<{
               </td>
               <td>
                 <Mono>
-                  <MetadataEntry entry={entry} expandSmallValues={true} />
+                  <MetadataEntry
+                    entry={entry}
+                    expandSmallValues={true}
+                    repoLocation={repoLocation}
+                  />
                 </Mono>
               </td>
               <td style={{opacity: 0.7}}>{entry.description}</td>
@@ -59,7 +68,11 @@ export const AssetEventMetadataEntriesTable: React.FC<{
               </td>
               <td>
                 <Mono>
-                  <MetadataEntry entry={obv.entry} expandSmallValues={true} />
+                  <MetadataEntry
+                    entry={obv.entry}
+                    expandSmallValues={true}
+                    repoLocation={repoLocation}
+                  />
                 </Mono>
               </td>
               <td style={{opacity: 0.7}}>
