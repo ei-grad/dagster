@@ -2041,7 +2041,7 @@ __metadata:
     eslint: 8.6.0
     eslint-plugin-jest: ^26.4.6
     eslint-webpack-plugin: 3.1.1
-    graphql: ^16.6.0
+    graphql: ^16.8.1
     prettier: 2.2.1
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -2142,7 +2142,7 @@ __metadata:
     eslint-plugin-storybook: ^0.6.12
     faker: 5.5.3
     fuse.js: ^6.4.2
-    graphql: ^16.6.0
+    graphql: ^16.8.1
     graphql-codegen-typescript-mock-data: ^3.3.0
     graphql-config: ^4.5.0
     graphql-tag: ^2.10.1
@@ -12957,10 +12957,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:*, graphql@npm:^16.6.0":
+"graphql@npm:*":
   version: 16.6.0
   resolution: "graphql@npm:16.6.0"
   checksum: bf1d9e3c1938ce3c1a81e909bd3ead1ae4707c577f91cff1ca2eca474bfbc7873d5d7b942e1e9777ff5a8304421dba57a4b76d7a29eb19de8711cb70e3c2415e
+  languageName: node
+  linkType: hard
+
+"graphql@npm:^16.8.1":
+  version: 16.8.1
+  resolution: "graphql@npm:16.8.1"
+  checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
   languageName: node
   linkType: hard
 
