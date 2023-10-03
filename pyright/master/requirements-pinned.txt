@@ -494,7 +494,7 @@ unicodecsv==0.14.1
 universal_pathlib==0.0.23
 uri-template==1.2.0
 uritemplate==4.1.1
-urllib3==1.26.15
+urllib3==1.26.17
 uvicorn==0.22.0
 uvloop==0.17.0
 vine==5.0.0
