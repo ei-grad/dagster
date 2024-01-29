@@ -279,7 +279,7 @@ interface LogsProviderWithQueryProps {
   children: (result: LogsProviderLogs) => React.ReactChild;
 }
 
-const POLL_INTERVAL = 5000;
+const POLL_INTERVAL = 1100;
 
 const LogsProviderWithQuery = (props: LogsProviderWithQueryProps) => {
   const {children, runId} = props;
@@ -305,6 +305,7 @@ const LogsProviderWithQuery = (props: LogsProviderWithQueryProps) => {
 
         const run = data.pipelineRunOrError;
         const queued = data.logsForRun.events;
+        //const status = pipelineStatusFromMessages(queued);
         const status = run.status;
         const cursor = data.logsForRun.cursor;
 
