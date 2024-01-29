@@ -41,7 +41,7 @@ const DEBOUNCE_TIME = 5000;
 // The amount of time we're willing to wait for the server to ack the WS connection
 // before we give up and call WebSockets unavailable. This can occur when the connection
 // just hangs but never closes or errors.
-const TIME_TO_WAIT_FOR_ACK = 10000;
+const TIME_TO_WAIT_FOR_ACK = 500;
 
 interface Props {
   children: React.ReactNode;
