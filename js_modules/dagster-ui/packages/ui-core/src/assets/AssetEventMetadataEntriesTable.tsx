@@ -17,6 +17,7 @@ import styled from 'styled-components';
 
 import {AssetEventMetadataPlots} from './AssetEventMetadataPlots';
 import {AssetKey} from './types';
+import {RunStatus} from '../graphql/types';
 import {
   AssetMaterializationFragment,
   AssetObservationFragment,
@@ -33,6 +34,23 @@ type TableEvent = Pick<
 > & {
   timestamp?: string | number;
   runId?: string;
+  runOrError?:
+  | {__typename: 'PythonError'}
+  | {
+      __typename: 'Run';
+      id: string;
+      mode: string;
+      status: RunStatus;
+      pipelineName: string;
+      pipelineSnapshotId: string | null;
+      repositoryOrigin: {
+        __typename: 'RepositoryOrigin';
+        id: string;
+        repositoryName: string;
+        repositoryLocationName: string;
+      } | null;
+    }
+  | {__typename: 'RunNotFoundError'};
 };
 
 interface Props {
@@ -127,7 +145,7 @@ export const AssetEventMetadataEntriesTable = ({
   }
 
   const repoLocation =
-    event.runOrError?.__typename === 'Run'
+    event?.runOrError?.__typename === 'Run'
       ? event.runOrError.repositoryOrigin?.repositoryLocationName
       : undefined;
 
