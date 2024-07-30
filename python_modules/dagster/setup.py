@@ -94,7 +94,6 @@ setup(
         "python-dotenv",
         "pytz",
         "requests",
-        "setuptools",
         "six",  # for vendored dateutil
         "tabulate",
         "tomli<3",
