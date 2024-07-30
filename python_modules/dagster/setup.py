@@ -97,7 +97,6 @@ setup(
         "python-dotenv",
         "pytz",
         "requests",
-        "setuptools",
         "tabulate",
         "tomli<3",
         "tqdm<5",
